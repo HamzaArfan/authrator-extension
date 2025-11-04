@@ -1,0 +1,62 @@
+{
+  "name": "authrator-vscode",
+  "displayName": "Authrator",
+  "description": "Authrator collections and APIs inside VS Code",
+  "version": "0.0.1",
+  "publisher": "authrator",
+  "engines": {
+    "vscode": "^1.82.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "main": "./out/extension.js",
+  "activationEvents": [
+    "onCommand:authrator.open",
+    "onView:authrator.explorer"
+  ],
+  "contributes": {
+    "commands": [
+      { "command": "authrator.open", "title": "Authrator: Open" }
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "authrator",
+          "title": "Authrator",
+          "icon": "media/icon.png"
+        }
+      ]
+    },
+    "views": {
+      "authrator": [
+        {
+          "id": "authrator.explorer",
+          "name": "Authrator",
+          "icon": "media/icon.png"
+        }
+      ]
+    },
+    "viewsWelcome": [
+      {
+        "view": "authrator.explorer",
+        "contents": "Welcome to Authrator.\n[Open Dashboard](command:authrator.open)"
+      }
+    ]
+  },
+  "icon": "media/icon.png",
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "package": "vsce package"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.30",
+    "@types/vscode": "^1.82.0",
+    "typescript": "^5.4.0"
+  },
+  "dependencies": {
+    "axios": "^1.6.8"
+  }
+}
