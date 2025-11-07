@@ -29,7 +29,7 @@ export class ApiService {
       return (res.data.collections || []).map((c: any) => ({
         id: c._id || c.id,
         name: c.name,
-        color: c.color || '#FF6B6B',
+        color: c.color || '#6A5ACD',
         apis: (c.apis || []).map((a: any) => ({
           id: a._id || a.id,
           name: a.name,
@@ -130,22 +130,98 @@ export class ApiService {
 
     // Build headers
     const headers: Record<string, string> = {};
-    if (api.headers) {
+    if (Array.isArray(api.headers)) {
       api.headers.forEach(h => {
-        if (h.key) headers[h.key] = h.value || '';
+        const key = (h?.key || '').trim();
+        const val = (h?.value || '').trim();
+        if (key) headers[key] = val;
       });
     }
+    const hasHeaderKey = (k: string) => Object.keys(headers).some(hk => hk.toLowerCase() === String(k || '').toLowerCase());
+    const hasAuthHeader = hasHeaderKey('authorization');
+
+    // Inject Authorization / API Key similar to web app
+    if (api.auth && api.auth.type && api.auth.type !== 'none') {
+      switch (api.auth.type) {
+        case 'basic': {
+          const username = api.auth.username;
+          if (username && !hasAuthHeader) {
+            const encoded = Buffer.from(`${username}:${api.auth.password || ''}`).toString('base64');
+            headers['Authorization'] = `Basic ${encoded}`;
+          }
+          break;
+        }
+        case 'bearer': {
+          const token = api.auth.token;
+          if (token && !hasAuthHeader) {
+            headers['Authorization'] = `Bearer ${token}`;
+          }
+          break;
+        }
+        case 'api-key': {
+          const key = api.auth.apiKey?.key;
+          const value = api.auth.apiKey?.value;
+          const addTo = api.auth.apiKey?.addTo || 'header';
+          if (key && value) {
+            if (addTo === 'header' && !hasHeaderKey(key)) {
+              headers[key] = value;
+            } else if (addTo === 'query') {
+              // Add to query string
+              const qp = `${encodeURIComponent(key)}=${encodeURIComponent(value)}`;
+              finalUrl += (finalUrl.includes('?') ? '&' : '?') + qp;
+            }
+          }
+          break;
+        }
+      }
+    }
+
+    // Ensure default headers are present (do not override user-provided)
+    const DEFAULT_HEADERS = [
+      { key: 'User-Agent', value: 'Authrator-Client' },
+      { key: 'Cache-Control', value: 'no-cache' },
+      { key: 'Connection', value: 'keep-alive' }
+    ];
+    DEFAULT_HEADERS.forEach(h => {
+      if (!hasHeaderKey(h.key)) headers[h.key] = h.value;
+    });
 
     // Prepare body
-    let body = null;
+    let body: any = null;
+    let bodyType: 'none' | 'raw' | 'formData' | 'urlencoded' = 'none';
     if (api.method !== 'GET' && api.method !== 'HEAD') {
       if (typeof api.body === 'string') {
+        bodyType = 'raw';
         body = api.body;
-        if (!headers['Content-Type']) {
+        if (!hasHeaderKey('content-type')) {
           headers['Content-Type'] = 'application/json';
         }
-      } else if (api.body && api.body.content) {
-        body = api.body.content;
+      } else if (api.body && typeof api.body === 'object') {
+        const type = (api.body.type as any) || 'none';
+        bodyType = type;
+        if (type === 'raw') {
+          body = { type: 'raw', content: api.body.content || '' };
+          if (!hasHeaderKey('content-type')) {
+            headers['Content-Type'] = 'application/json';
+          }
+        } else if (type === 'formData') {
+          // Do not set Content-Type; boundary is set by sender
+          body = {
+            type: 'formData',
+            formData: Array.isArray(api.body.formData) ? api.body.formData.map((i: any) => ({ key: i.key, value: i.value, type: i.type })) : []
+          };
+        } else if (type === 'urlencoded') {
+          if (!hasHeaderKey('content-type')) {
+            headers['Content-Type'] = 'application/x-www-form-urlencoded';
+          }
+          body = {
+            type: 'urlencoded',
+            urlencoded: Array.isArray(api.body.urlencoded) ? api.body.urlencoded.map((i: any) => ({ key: i.key, value: i.value })) : []
+          };
+        } else {
+          bodyType = 'none';
+          body = null;
+        }
       }
     }
 
@@ -154,6 +230,7 @@ export class ApiService {
       method: api.method,
       url: finalUrl,
       headers: Object.keys(headers).map(k => ({ key: k, value: headers[k] })),
+      bodyType: bodyType,
       body: body,
       settings: {
         followRedirects: true,

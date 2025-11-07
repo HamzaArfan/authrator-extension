@@ -3,7 +3,7 @@ import { AuthService } from './services/authService';
 import { ApiService } from './services/apiService';
 import { LocalStore } from './services/localStore';
 import { openDashboardPanel } from './webviews/dashboardPanel';
-// import { ExplorerViewProvider } from './views/explorerView';
+import { ExplorerViewProvider } from './views/explorerView';
 
 export async function activate(context: vscode.ExtensionContext) {
   await vscode.workspace.fs.createDirectory(context.globalStorageUri);
@@ -18,11 +18,10 @@ export async function activate(context: vscode.ExtensionContext) {
     })
   );
 
-  // Temporarily disabled - focus on dashboard panel
-  // const provider = new ExplorerViewProvider(context, authService, apiService, localStore);
-  // context.subscriptions.push(
-  //   vscode.window.registerWebviewViewProvider(ExplorerViewProvider.viewId, provider)
-  // );
+  const provider = new ExplorerViewProvider(context);
+  context.subscriptions.push(
+    vscode.window.registerWebviewViewProvider(ExplorerViewProvider.viewId, provider)
+  );
 }
 
 export function deactivate() {}

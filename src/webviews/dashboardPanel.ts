@@ -49,9 +49,9 @@ export function openDashboardPanel(
 <title>Authrator API Client</title>
 <style>
 :root { 
-  --purple: #8B5CF6; 
-  --purpleDark: #7C3AED; 
-  --bg: #FAFAFA; 
+  --purple: #6A5ACD; 
+  --purpleDark: #483D8B; 
+  --bg: #F4F4F4; 
   --surface: #ffffff;
   --border: #E5E7EB;
   --text-primary: #111827;
@@ -234,8 +234,8 @@ button:active { opacity: 0.9; }
   font-weight: 700;
 }
 .more-btn:hover { 
-  color:var(--text-primary); 
-  background:var(--hover-bg);
+  color: var(--text-primary); 
+  background: var(--hover-bg);
 }
 .dropdown-menu {
   position: absolute;
@@ -302,12 +302,9 @@ button:active { opacity: 0.9; }
   font-style: italic;
 }
 .api-item-content {
-  display: flex;
-  align-items: center;
-  gap: 8px;
   flex: 1;
 }
-.method { 
+  .method { 
   font-size:10px; 
   font-weight:600; 
   padding:2px 6px; 
@@ -315,13 +312,11 @@ button:active { opacity: 0.9; }
   min-width:45px; 
   text-align:center;
 }
-.method.GET { background:#DBEAFE; color:#1E40AF; }
-.method.POST { background:#D1FAE5; color:#065F46; }
-.method.PUT { background:#FED7AA; color:#9A3412; }
-.method.DELETE { background:#FEE2E2; color:#991B1B; }
-.method.PATCH { background:#F3E8FF; color:#6B21A8; }
-.method.HEAD { background:#E0E7FF; color:#3730A3; }
-.method.OPTIONS { background:#FEF3C7; color:#92400E; }
+  .method.GET { background:#D1FAE5; color:#065F46; }
+  .method.POST { background:#F3E8FF; color:#6B21A8; }
+  .method.PUT { background:#FED7AA; color:#9A3412; }
+  .method.DELETE { background:#FEE2E2; color:#991B1B; }
+  .method.PATCH { background:#F3E8FF; color:#6B21A8; }
 
 /* Right Panel */
 .right-panel { 
@@ -464,6 +459,73 @@ button:active { opacity: 0.9; }
   flex: 1;
   min-height: 0;
   background: var(--bg);
+}
+/* Tab sections */
+.section {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+}
+.section + .section { margin-top: 12px; }
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+.section-title { font-weight: 600; }
+.section-meta { color: var(--text-secondary); font-size: 12px; }
+.section-body { display: block; }
+.field-label {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin: 8px 0 6px;
+  display: block;
+  font-weight: 500;
+}
+.add-row {
+  width: 100%;
+  margin-top: 8px;
+  background: transparent;
+  color: var(--text-secondary);
+  border: 1px dashed var(--input-border);
+}
+.add-row:hover {
+  background: var(--hover-bg);
+  color: var(--text-primary);
+  border-color: var(--border);
+}
+/* Inputs in tab content */
+.tab-content select {
+  padding: 8px 12px;
+  border: 1px solid var(--input-border);
+  background: var(--input-bg);
+  color: var(--text-primary);
+  border-radius: 6px;
+  font-size: 13px;
+  transition: all 0.15s ease;
+}
+.tab-content select:focus {
+  outline: none;
+  border-color: var(--purple);
+  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+}
+.tab-content input {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid var(--input-border);
+  background: var(--input-bg);
+  color: var(--text-primary);
+  border-radius: 6px;
+  font-size: 13px;
+  transition: all 0.15s ease;
+}
+.tab-content input:focus {
+  outline: none;
+  border-color: var(--purple);
+  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
 }
 .param-row { 
   display:flex; 
@@ -735,8 +797,6 @@ textarea::placeholder {
                 <option>PUT</option>
                 <option>DELETE</option>
                 <option>PATCH</option>
-                <option>HEAD</option>
-                <option>OPTIONS</option>
               </select>
               <input id="url-input" placeholder="Enter request URL" />
               <button id="send-btn">Send</button>
@@ -745,6 +805,7 @@ textarea::placeholder {
           
           <div class="editor-tabs">
             <button class="editor-tab active" data-tab="params">Params</button>
+            <button class="editor-tab" data-tab="authorization">Authorization</button>
             <button class="editor-tab" data-tab="headers">Headers</button>
             <button class="editor-tab" data-tab="body">Body</button>
           </div>
@@ -791,7 +852,7 @@ textarea::placeholder {
     <div class="modal">
       <h2>Create Collection</h2>
       <input id="col-name" placeholder="Collection name" />
-      <input id="col-color" type="hidden" value="#8B5CF6" />
+      <input id="col-color" type="hidden" value="#6A5ACD" />
       <div id="col-palette" style="display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 12px;"></div>
       <div style="display:flex;gap:8px;margin-top:8px;">
         <button id="col-cancel" class="btn-secondary" style="flex:1;">Cancel</button>
@@ -811,8 +872,6 @@ textarea::placeholder {
         <option>PUT</option>
         <option>DELETE</option>
         <option>PATCH</option>
-        <option>HEAD</option>
-        <option>OPTIONS</option>
       </select>
       <input id="api-url" placeholder="https://api.example.com/path" />
       <div style="display:flex;gap:8px;margin-top:8px;">
@@ -899,6 +958,26 @@ textarea::placeholder {
   let wasLoggedIn = null;
   let activeCollectionForAction = null;
   let activeApiForAction = null;
+  
+  // Allowed methods and default headers utilities
+  const ALLOWED_METHODS = ['GET','POST','PUT','DELETE','PATCH'];
+  const normalizeMethod = (m) => {
+    try { m = (m || '').toUpperCase(); } catch(_) { m = 'GET'; }
+    return ALLOWED_METHODS.includes(m) ? m : 'GET';
+  };
+  const DEFAULT_HEADERS = [
+    { key: 'User-Agent', value: 'Authrator-Client' },
+    { key: 'Cache-Control', value: 'no-cache' },
+    { key: 'Connection', value: 'keep-alive' }
+  ];
+  const ensureDefaultHeaders = (arr) => {
+    const headers = Array.isArray(arr) ? [...arr] : [];
+    const keys = headers.map(h => (h.key || '').toLowerCase());
+    DEFAULT_HEADERS.forEach(h => {
+      if (!keys.includes(h.key.toLowerCase())) headers.push({ ...h });
+    });
+    return headers;
+  };
   
   // Elements
   const listEl = document.getElementById('list');
@@ -1030,12 +1109,14 @@ textarea::placeholder {
         content.className = 'api-item-content';
         
         const methodSpan = document.createElement('span');
-        methodSpan.className = 'method ' + (api.method || 'GET');
-        methodSpan.textContent = api.method || 'GET';
+        const mUnsaved = normalizeMethod(api.method);
+        methodSpan.className = 'method ' + mUnsaved;
+        methodSpan.textContent = mUnsaved;
         
         const nameSpan = document.createElement('span');
         nameSpan.textContent = api.name || 'Untitled';
         nameSpan.style.flex = '1';
+        nameSpan.style.marginLeft = '8px'; 
         
         content.appendChild(methodSpan);
         content.appendChild(nameSpan);
@@ -1086,7 +1167,7 @@ textarea::placeholder {
       
       const colorIcon = document.createElement('div');
       colorIcon.className = 'collection-icon';
-colorIcon.innerHTML = '<svg viewBox="0 0 24 24" fill="' + (collection.color || '#8B5CF6') + '"><path d="M3 6a3 3 0 013-3h2.25a3 3 0 013 3v2.25a3 3 0 01-3 3H6a3 3 0 01-3-3V6zm9.75 0a3 3 0 013-3H18a3 3 0 013 3v2.25a3 3 0 01-3 3h-2.25a3 3 0 01-3-3V6zM3 15.75a3 3 0 013-3h2.25a3 3 0 013 3V18a3 3 0 01-3 3H6a3 3 0 01-3-3v-2.25zm9.75 0a3 3 0 013-3H18a3 3 0 013 3V18a3 3 0 01-3 3h-2.25a3 3 0 01-3-3v-2.25z"/></svg>';      
+colorIcon.innerHTML = '<svg viewBox="0 0 24 24" fill="' + (collection.color || '#6A5ACD') + '"><path d="M3 6v13h18V9h-9L9 6H3z"/></svg>';   
       const nameSpan = document.createElement('span');
       nameSpan.textContent = collection.name;
       nameSpan.style.flex = '1';
@@ -1164,12 +1245,14 @@ colorIcon.innerHTML = '<svg viewBox="0 0 24 24" fill="' + (collection.color || '
           content.className = 'api-item-content';
           
           const methodSpan = document.createElement('span');
-          methodSpan.className = 'method ' + (api.method || 'GET');
-          methodSpan.textContent = api.method || 'GET';
+          const mSaved = normalizeMethod(api.method);
+          methodSpan.className = 'method ' + mSaved;
+          methodSpan.textContent = mSaved;
           
           const nameSpan = document.createElement('span');
           nameSpan.textContent = api.name;
           nameSpan.style.flex = '1';
+          nameSpan.style.marginLeft = '8px';
           
           content.appendChild(methodSpan);
           content.appendChild(nameSpan);
@@ -1190,7 +1273,7 @@ colorIcon.innerHTML = '<svg viewBox="0 0 24 24" fill="' + (collection.color || '
             const openId = 'api-' + api.id;
             let existing = openApis.find(a => a.__id === openId);
             if (!existing) {
-              existing = { __id: openId, isTemp: false, ...api, collectionId: collection.id };
+              existing = { __id: openId, isTemp: false, ...api, method: normalizeMethod(api.method), headers: ensureDefaultHeaders(api.headers), collectionId: collection.id };
               openApis.push(existing);
             }
             currentApi = existing;
@@ -1220,7 +1303,7 @@ colorIcon.innerHTML = '<svg viewBox="0 0 24 24" fill="' + (collection.color || '
     apiEditor.style.display = 'flex';
     
     // Set method and URL
-    document.getElementById('method-select').value = currentApi.method || 'GET';
+    document.getElementById('method-select').value = normalizeMethod(currentApi.method);
     document.getElementById('url-input').value = currentApi.url || '';
     
     // Set active tab
@@ -1270,50 +1353,296 @@ colorIcon.innerHTML = '<svg viewBox="0 0 24 24" fill="' + (collection.color || '
   
   function renderTabContent() {
     tabContent.innerHTML = '';
-    
+
     if (activeTab === 'params') {
+      const section = document.createElement('div');
+      section.className = 'section';
+
+      const header = document.createElement('div');
+      header.className = 'section-header';
+      const count = (currentApi.queryParams ? currentApi.queryParams.length : 0);
+      header.innerHTML = '<div class="section-title">Query Parameters</div><div class="section-meta">' + count + ' item' + (count === 1 ? '' : 's') + '</div>';
+      section.appendChild(header);
+
+      const body = document.createElement('div');
+      body.className = 'section-body';
+
       const params = currentApi.queryParams || [];
       params.forEach((param, i) => {
         const row = createParamRow(param, i, 'queryParams');
-        tabContent.appendChild(row);
+        body.appendChild(row);
       });
-      
+
       const addBtn = document.createElement('button');
       addBtn.textContent = '+ Add Parameter';
-      addBtn.className = 'btn-secondary';
-      addBtn.style.marginTop = '8px';
+      addBtn.className = 'btn-secondary add-row';
       addBtn.onclick = () => {
         if (!currentApi.queryParams) currentApi.queryParams = [];
         currentApi.queryParams.push({ key: '', value: '' });
         renderTabContent();
       };
-      tabContent.appendChild(addBtn);
+      body.appendChild(addBtn);
+
+      section.appendChild(body);
+      tabContent.appendChild(section);
+    } else if (activeTab === 'authorization') {
+      if (!currentApi.auth) currentApi.auth = { type: 'none' };
+
+      const section = document.createElement('div');
+      section.className = 'section';
+
+      const header = document.createElement('div');
+      header.className = 'section-header';
+      header.innerHTML = '<div class="section-title">Authorization</div><div class="section-meta">Configure request auth</div>';
+      section.appendChild(header);
+
+      const body = document.createElement('div');
+      body.className = 'section-body';
+
+      const typeLabel = document.createElement('label');
+      typeLabel.className = 'field-label';
+      typeLabel.textContent = 'Type';
+      body.appendChild(typeLabel);
+
+      const typeSelect = document.createElement('select');
+      const typeOptions = [
+        { v: 'none', l: 'None' },
+        { v: 'basic', l: 'Basic Auth' },
+        { v: 'bearer', l: 'Bearer Token' },
+        { v: 'api-key', l: 'API Key' }
+      ];
+      typeOptions.forEach(opt => { const o = document.createElement('option'); o.value = opt.v; o.textContent = opt.l; typeSelect.appendChild(o); });
+      typeSelect.value = currentApi.auth.type || 'none';
+      typeSelect.onchange = (e) => {
+        const val = e.target.value;
+        currentApi.auth = { type: val };
+        renderTabContent();
+      };
+      body.appendChild(typeSelect);
+
+      const spacer = document.createElement('div');
+      spacer.style.height = '12px';
+      body.appendChild(spacer);
+
+      if (currentApi.auth.type === 'basic') {
+        const userLabel = document.createElement('label');
+        userLabel.className = 'field-label';
+        userLabel.textContent = 'Username';
+        const user = document.createElement('input');
+        user.placeholder = 'Username';
+        user.value = currentApi.auth.username || '';
+        user.oninput = (e) => { currentApi.auth.username = e.target.value; };
+
+        const passLabel = document.createElement('label');
+        passLabel.className = 'field-label';
+        passLabel.textContent = 'Password';
+        const pass = document.createElement('input');
+        pass.placeholder = 'Password';
+        pass.type = 'password';
+        pass.value = currentApi.auth.password || '';
+        pass.oninput = (e) => { currentApi.auth.password = e.target.value; };
+
+        body.appendChild(userLabel);
+        body.appendChild(user);
+        body.appendChild(passLabel);
+        body.appendChild(pass);
+      } else if (currentApi.auth.type === 'bearer') {
+        const tokenLabel = document.createElement('label');
+        tokenLabel.className = 'field-label';
+        tokenLabel.textContent = 'Token';
+        const token = document.createElement('input');
+        token.placeholder = 'Token';
+        token.value = currentApi.auth.token || '';
+        token.oninput = (e) => { currentApi.auth.token = e.target.value; };
+        body.appendChild(tokenLabel);
+        body.appendChild(token);
+      } else if (currentApi.auth.type === 'api-key') {
+        if (!currentApi.auth.apiKey) currentApi.auth.apiKey = { key: '', value: '', addTo: 'header' };
+
+        const keyLabel = document.createElement('label');
+        keyLabel.className = 'field-label';
+        keyLabel.textContent = 'Key';
+        const key = document.createElement('input');
+        key.placeholder = 'Key';
+        key.value = currentApi.auth.apiKey.key || '';
+        key.oninput = (e) => { currentApi.auth.apiKey.key = e.target.value; };
+
+        const valLabel = document.createElement('label');
+        valLabel.className = 'field-label';
+        valLabel.textContent = 'Value';
+        const val = document.createElement('input');
+        val.placeholder = 'Value';
+        val.value = currentApi.auth.apiKey.value || '';
+        val.oninput = (e) => { currentApi.auth.apiKey.value = e.target.value; };
+
+        const addToLabel = document.createElement('label');
+        addToLabel.className = 'field-label';
+        addToLabel.textContent = 'Add To';
+        const addTo = document.createElement('select');
+        const addToOptions = [
+          { v: 'header', l: 'Add to Header' },
+          { v: 'query', l: 'Add to Query Params' }
+        ];
+        addToOptions.forEach(opt => { const o = document.createElement('option'); o.value = opt.v; o.textContent = opt.l; addTo.appendChild(o); });
+        addTo.value = currentApi.auth.apiKey.addTo || 'header';
+        addTo.onchange = (e) => { currentApi.auth.apiKey.addTo = e.target.value; };
+
+        body.appendChild(keyLabel);
+        body.appendChild(key);
+        body.appendChild(valLabel);
+        body.appendChild(val);
+        body.appendChild(addToLabel);
+        body.appendChild(addTo);
+      } else {
+        const info = document.createElement('div');
+        info.textContent = 'No authorization will be added.';
+        info.style.color = 'var(--text-secondary)';
+        body.appendChild(info);
+      }
+
+      section.appendChild(body);
+      tabContent.appendChild(section);
     } else if (activeTab === 'headers') {
-      const headers = currentApi.headers || [];
-      headers.forEach((header, i) => {
-        const row = createParamRow(header, i, 'headers');
-        tabContent.appendChild(row);
+      const section = document.createElement('div');
+      section.className = 'section';
+
+      currentApi.headers = ensureDefaultHeaders(currentApi.headers);
+      const header = document.createElement('div');
+      header.className = 'section-header';
+      const count = (currentApi.headers ? currentApi.headers.length : 0);
+      header.innerHTML = '<div class="section-title">Headers</div><div class="section-meta">' + count + ' item' + (count === 1 ? '' : 's') + '</div>';
+      section.appendChild(header);
+
+      const body = document.createElement('div');
+      body.className = 'section-body';
+
+      const headers = currentApi.headers;
+      headers.forEach((headerItem, i) => {
+        const row = createParamRow(headerItem, i, 'headers');
+        body.appendChild(row);
       });
-      
+
       const addBtn = document.createElement('button');
       addBtn.textContent = '+ Add Header';
-      addBtn.className = 'btn-secondary';
-      addBtn.style.marginTop = '8px';
+      addBtn.className = 'btn-secondary add-row';
       addBtn.onclick = () => {
         if (!currentApi.headers) currentApi.headers = [];
         currentApi.headers.push({ key: '', value: '' });
         renderTabContent();
       };
-      tabContent.appendChild(addBtn);
+      body.appendChild(addBtn);
+
+      section.appendChild(body);
+      tabContent.appendChild(section);
     } else if (activeTab === 'body') {
-      const textarea = document.createElement('textarea');
-      textarea.placeholder = 'Request body (JSON, XML, etc.)';
-      textarea.value = typeof currentApi.body === 'string' ? currentApi.body : 
-                      (currentApi.body && currentApi.body.content) || '';
-      textarea.oninput = (e) => {
-        currentApi.body = e.target.value;
+      if (!currentApi.body || typeof currentApi.body === 'string') {
+        currentApi.body = { type: (typeof currentApi.body === 'string' && currentApi.body ? 'raw' : 'none'), content: (typeof currentApi.body === 'string' ? currentApi.body : ''), formData: [], urlencoded: [] };
+      }
+
+      const section = document.createElement('div');
+      section.className = 'section';
+
+      const header = document.createElement('div');
+      header.className = 'section-header';
+      header.innerHTML = '<div class="section-title">Body</div><div class="section-meta">Configure request body</div>';
+      section.appendChild(header);
+
+      const body = document.createElement('div');
+      body.className = 'section-body';
+
+      const typeLabel = document.createElement('label');
+      typeLabel.className = 'field-label';
+      typeLabel.textContent = 'Body Type';
+      body.appendChild(typeLabel);
+
+      const typeSelect = document.createElement('select');
+      const bodyTypeOptions = [
+        { v: 'none', l: 'None' },
+        { v: 'raw', l: 'Raw' },
+        { v: 'formData', l: 'Form Data' },
+        { v: 'urlencoded', l: 'x-www-form-urlencoded' }
+      ];
+      bodyTypeOptions.forEach(opt => { const o = document.createElement('option'); o.value = opt.v; o.textContent = opt.l; typeSelect.appendChild(o); });
+      typeSelect.value = currentApi.body.type || 'none';
+      typeSelect.onchange = (e) => {
+        const val = e.target.value;
+        currentApi.body.type = val;
+        if (val === 'raw') { if (typeof currentApi.body.content !== 'string') currentApi.body.content = ''; }
+        if (val === 'formData' && !Array.isArray(currentApi.body.formData)) currentApi.body.formData = [];
+        if (val === 'urlencoded' && !Array.isArray(currentApi.body.urlencoded)) currentApi.body.urlencoded = [];
+        renderTabContent();
       };
-      tabContent.appendChild(textarea);
+      body.appendChild(typeSelect);
+
+      const spacer = document.createElement('div');
+      spacer.style.height = '12px';
+      body.appendChild(spacer);
+
+      if (currentApi.body.type === 'raw') {
+        const textarea = document.createElement('textarea');
+        textarea.placeholder = 'Request body (JSON, XML, etc.)';
+        textarea.value = currentApi.body.content || '';
+        textarea.oninput = (e) => { currentApi.body.content = e.target.value; };
+        body.appendChild(textarea);
+      } else if (currentApi.body.type === 'formData') {
+        const items = Array.isArray(currentApi.body.formData) ? currentApi.body.formData : [];
+        items.forEach((item, i) => {
+          const row = document.createElement('div');
+          row.className = 'param-row';
+          const k = document.createElement('input');
+          k.placeholder = 'Key';
+          k.value = item.key || '';
+          k.oninput = (e) => { currentApi.body.formData[i].key = e.target.value; };
+          const v = document.createElement('input');
+          v.placeholder = 'Value';
+          v.value = item.value || '';
+          v.oninput = (e) => { currentApi.body.formData[i].value = e.target.value; };
+          const del = document.createElement('button');
+          del.textContent = '×';
+          del.className = 'btn-secondary';
+          del.onclick = () => { currentApi.body.formData.splice(i, 1); renderTabContent(); };
+          row.appendChild(k); row.appendChild(v); row.appendChild(del);
+          body.appendChild(row);
+        });
+        const addBtn = document.createElement('button');
+        addBtn.textContent = '+ Add Field';
+        addBtn.className = 'btn-secondary add-row';
+        addBtn.onclick = () => { if (!currentApi.body.formData) currentApi.body.formData = []; currentApi.body.formData.push({ key: '', value: '' }); renderTabContent(); };
+        body.appendChild(addBtn);
+      } else if (currentApi.body.type === 'urlencoded') {
+        const items = Array.isArray(currentApi.body.urlencoded) ? currentApi.body.urlencoded : [];
+        items.forEach((item, i) => {
+          const row = document.createElement('div');
+          row.className = 'param-row';
+          const k = document.createElement('input');
+          k.placeholder = 'Key';
+          k.value = item.key || '';
+          k.oninput = (e) => { currentApi.body.urlencoded[i].key = e.target.value; };
+          const v = document.createElement('input');
+          v.placeholder = 'Value';
+          v.value = item.value || '';
+          v.oninput = (e) => { currentApi.body.urlencoded[i].value = e.target.value; };
+          const del = document.createElement('button');
+          del.textContent = '×';
+          del.className = 'btn-secondary';
+          del.onclick = () => { currentApi.body.urlencoded.splice(i, 1); renderTabContent(); };
+          row.appendChild(k); row.appendChild(v); row.appendChild(del);
+          body.appendChild(row);
+        });
+        const addBtn = document.createElement('button');
+        addBtn.textContent = '+ Add Field';
+        addBtn.className = 'btn-secondary add-row';
+        addBtn.onclick = () => { if (!currentApi.body.urlencoded) currentApi.body.urlencoded = []; currentApi.body.urlencoded.push({ key: '', value: '' }); renderTabContent(); };
+        body.appendChild(addBtn);
+      } else {
+        const info = document.createElement('div');
+        info.textContent = 'No body will be sent.';
+        info.style.color = 'var(--text-secondary)';
+        body.appendChild(info);
+      }
+
+      section.appendChild(body);
+      tabContent.appendChild(section);
     }
   }
   
@@ -1326,6 +1655,10 @@ colorIcon.innerHTML = '<svg viewBox="0 0 24 24" fill="' + (collection.color || '
     keyInput.value = param.key || '';
     keyInput.oninput = (e) => {
       currentApi[type][index].key = e.target.value;
+      if (type === 'headers') {
+        // Re-render to toggle delete for default headers dynamically
+        renderTabContent();
+      }
     };
     
     const valueInput = document.createElement('input');
@@ -1342,6 +1675,13 @@ colorIcon.innerHTML = '<svg viewBox="0 0 24 24" fill="' + (collection.color || '
       currentApi[type].splice(index, 1);
       renderTabContent();
     };
+    // Hide delete for default headers to match web app behavior
+    if (type === 'headers') {
+      const isDefaultHeader = DEFAULT_HEADERS.some(d => String(d.key || '').toLowerCase() === String(param.key || '').toLowerCase());
+      if (isDefaultHeader) {
+        deleteBtn.style.display = 'none';
+      }
+    }
     
     row.appendChild(keyInput);
     row.appendChild(valueInput);
@@ -1361,7 +1701,7 @@ colorIcon.innerHTML = '<svg viewBox="0 0 24 24" fill="' + (collection.color || '
   
   function createInstantApi(collectionId) {
     const id = 'temp-' + Date.now() + '-' + Math.random().toString(36).slice(2, 6);
-    const a = { __id: id, isTemp: true, name: 'Untitled API', method: 'GET', url: '', headers: [], queryParams: [], body: '', collectionId };
+    const a = { __id: id, isTemp: true, name: 'Untitled API', method: 'GET', url: '', headers: ensureDefaultHeaders([]), queryParams: [], body: '', collectionId };
     openApis.push(a);
     currentApi = a;
     activeTab = 'params';
@@ -1508,10 +1848,19 @@ colorIcon.innerHTML = '<svg viewBox="0 0 24 24" fill="' + (collection.color || '
   // Event listeners
   document.getElementById('method-select').onchange = (e) => {
     if (currentApi) {
-      currentApi.method = e.target.value;
-      if (!currentApi.isTemp && currentApi.id && currentApi.collectionId) {
+      const newMethod = normalizeMethod(e.target.value);
+      currentApi.method = newMethod;
+      // Reflect immediately in sidebar
+      if (!currentApi.isTemp && currentApi.id && currentApi.collectionId && Array.isArray(state.collections)) {
+        for (const col of state.collections) {
+          if (col.id === currentApi.collectionId && Array.isArray(col.apis)) {
+            const idx = col.apis.findIndex(a => a.id === currentApi.id);
+            if (idx > -1) col.apis[idx].method = newMethod;
+          }
+        }
         vscode.postMessage({ action: 'updateApi', api: currentApi });
       }
+      render();
     }
   };
   
@@ -1529,6 +1878,9 @@ colorIcon.innerHTML = '<svg viewBox="0 0 24 24" fill="' + (collection.color || '
     
     loading.style.display = 'block';
     responseSection.style.display = 'none';
+    
+    // Ensure default headers are always present before sending
+    currentApi.headers = ensureDefaultHeaders(currentApi.headers);
     
     vscode.postMessage({ 
       action: 'sendRequest', 
@@ -1608,7 +1960,7 @@ colorIcon.innerHTML = '<svg viewBox="0 0 24 24" fill="' + (collection.color || '
       action: 'renameCollection', 
       collectionId: activeCollectionForAction.id,
       name: newName,
-      color: activeCollectionForAction.color || '#8B5CF6'
+      color: activeCollectionForAction.color || '#6A5ACD'
     });
     renameColOverlay.style.display = 'none';
     activeCollectionForAction = null;
@@ -1721,7 +2073,17 @@ colorIcon.innerHTML = '<svg viewBox="0 0 24 24" fill="' + (collection.color || '
   // API tabs add (unsaved)
   document.getElementById('api-tab-add').onclick = () => {
     const id = 'temp-' + Date.now() + '-' + Math.random().toString(36).slice(2, 6);
-    const a = { __id: id, isTemp: true, name: 'Untitled', method: 'GET', url: '', headers: [], queryParams: [], body: '' };
+    const a = { 
+      __id: id, 
+      isTemp: true, 
+      name: 'Untitled', 
+      method: 'GET', 
+      url: '', 
+      headers: ensureDefaultHeaders([]), 
+      queryParams: [], 
+      body: { type: 'none', content: '', formData: [], urlencoded: [] },
+      auth: { type: 'none' }
+    };
     openApis.push(a);
     currentApi = a;
     activeTab = 'params';
@@ -1800,7 +2162,7 @@ colorIcon.innerHTML = '<svg viewBox="0 0 24 24" fill="' + (collection.color || '
         }
         let existing = openApis.find(a => a.__id === openId);
         if (!existing) {
-          existing = { __id: openId, isTemp: false, ...created, collectionId: msg.collectionId };
+          existing = { __id: openId, isTemp: false, ...created, method: normalizeMethod(created.method), headers: ensureDefaultHeaders(created.headers), collectionId: msg.collectionId };
           openApis.push(existing);
         }
         currentApi = existing;
@@ -1813,7 +2175,7 @@ colorIcon.innerHTML = '<svg viewBox="0 0 24 24" fill="' + (collection.color || '
       document.getElementById('auth-error').style.display = 'block';
     }
   });
-  
+
   // Initialize
   const initState = vscode.getState() || {};
   theme = (initState.theme === 'dark') ? 'dark' : 'light';
@@ -1821,9 +2183,9 @@ colorIcon.innerHTML = '<svg viewBox="0 0 24 24" fill="' + (collection.color || '
   
   // palette for collections
   (function initPalette(){
-    const colors = ['#8B5CF6','#EF4444','#10B981','#F59E0B','#3B82F6','#EC4899','#14B8A6','#F97316','#22C55E','#6366F1'];
+    const colors = ['#6A5ACD','#EF4444','#10B981','#F59E0B','#3B82F6','#EC4899','#14B8A6','#F97316','#22C55E','#6366F1'];
     const el = document.getElementById('col-palette');
-    let selected = document.getElementById('col-color').value || '#8B5CF6';
+    let selected = document.getElementById('col-color').value || '#6A5ACD';
     function renderPal(){
       el.innerHTML = '';
       colors.forEach(c => {
@@ -1975,7 +2337,8 @@ colorIcon.innerHTML = '<svg viewBox="0 0 24 24" fill="' + (collection.color || '
                 ...created,
                 headers: message.api.headers || [],
                 queryParams: message.api.queryParams || [],
-                body: message.api.body || ''
+                body: message.api.body || { type: 'none' },
+                auth: message.api.auth || { type: 'none' }
               });
               panel.webview.postMessage({ type: 'api:created', api: created, collectionId: message.api.collectionId, tempId: message.tempId });
             }

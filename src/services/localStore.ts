@@ -79,7 +79,8 @@ export class LocalStore {
           url: api.url !== undefined ? api.url : collection.apis[apiIndex].url,
           headers: api.headers !== undefined ? api.headers : collection.apis[apiIndex].headers,
           queryParams: api.queryParams !== undefined ? api.queryParams : collection.apis[apiIndex].queryParams,
-          body: api.body !== undefined ? api.body : collection.apis[apiIndex].body
+          body: api.body !== undefined ? api.body : collection.apis[apiIndex].body,
+          auth: api.auth !== undefined ? api.auth : collection.apis[apiIndex].auth
         };
         found = true;
         break;

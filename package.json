@@ -33,7 +33,8 @@
         {
           "id": "authrator.explorer",
           "name": "Authrator",
-          "icon": "media/icon.png"
+          "icon": "media/icon.png",
+          "type": "webview"
         }
       ]
     },
